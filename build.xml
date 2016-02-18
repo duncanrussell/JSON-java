@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>as the first entry and export the buildfile again. -->
+<project basedir="." default="generate.jar" name="JSON-java">
+	<property environment="env"/>
+	<property name="debuglevel" value="source,lines,vars"/>
+	<property name="target" value="1.6"/>
+	<property name="source" value="1.6"/>
+	<path id="json-java.classpath">
+	</path>
+	<target name="init">
+		<mkdir dir="bin"/>
+		<mkdir dir="bin/classes"/>
+		<mkdir dir="bin/test"/>
+		<mkdir dir="bin/dist"/>
+		<copy includeemptydirs="false" todir="bin">
+			<fileset dir="src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="bin"/>
+	</target>
+	<target depends="clean" name="cleanall"/>
+	<target depends="build-subprojects,build-project" name="build"/>
+	<target name="build-subprojects">
+	</target>
+	<target depends="init" name="build-project">
+		<echo message="${ant.project.name}: ${ant.file}"/>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin/classes" encoding="UTF-8" includeantruntime="false" source="${source}" target="${target}">
+			<src path="."/>
+			<classpath refid="json-java.classpath"/>
+		</javac>
+	</target>
+	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+	<target name="generate.jar" depends="build-project">
+		<jar basedir="bin/classes" destfile="bin/dist/${ant.project.name}.jar"/>
+	</target>
+	<!-- run test -->
+	<target depends="build-project" name="runTest">
+		<mkdir dir="bin/test/result"/>
+		<junit fork="yes" haltonfailure="no" printsummary="on">
+			<classpath>
+				<path refid="SHAMALAnalysisServices.classpath"/>
+			</classpath>
+			<formatter type="plain"/>
+			<batchtest todir="bin/test/result">
+				<fileset dir="src/test/java">
+					<include name="**/SHAMALAnalysisServicesTest.java"/>
+					<exclude name="**/*UtilsTest.java"/>
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+</project>
